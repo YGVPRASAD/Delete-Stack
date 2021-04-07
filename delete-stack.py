@@ -35,7 +35,7 @@ def main():
         )
     else:
         LOGGER.info("Stack does not exist")
-        return False
+        exit 1
     
 def _stack_exists(stack_name):
     stacks = client.list_stacks()['StackSummaries']
