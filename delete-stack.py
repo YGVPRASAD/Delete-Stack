@@ -35,7 +35,7 @@ def main():
         )
     else:
         #LOGGER.info("Stack does not exist")
-        raise "Exception: Stack does not exist"
+        raise TypeError("Stack does not exist")
         
 def _stack_exists(stack_name):
     stacks = client.list_stacks()['StackSummaries']
