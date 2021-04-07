@@ -1,5 +1,6 @@
 ##delete a stack with given stack name##
 from __future__ import division, print_function, unicode_literals
+from exceptions import Exception
 from os import environ
 import logging
 import argparse
@@ -34,8 +35,7 @@ def main():
             StackName=args.name
         )
     else:
-        LOGGER.info("Stack does not exist")
-        exit 1
+        raise Exception("Stack does not exist")
     
 def _stack_exists(stack_name):
     stacks = client.list_stacks()['StackSummaries']
