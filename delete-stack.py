@@ -34,8 +34,9 @@ def main():
             StackName=args.name
         )
     else:
-        raise Exception("Stack does not exist")
-
+        #LOGGER.info("Stack does not exist")
+        raise
+        
 def _stack_exists(stack_name):
     stacks = client.list_stacks()['StackSummaries']
     for stack in stacks:
