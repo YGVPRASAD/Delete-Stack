@@ -1,6 +1,5 @@
 ##delete a stack with given stack name##
 from __future__ import division, print_function, unicode_literals
-from .exceptions import Exception
 import sys
 from os import environ
 import logging
