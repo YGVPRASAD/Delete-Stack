@@ -14,10 +14,11 @@ LOGGER.setLevel(logging.getLevelName(LOGLEVEL))
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--name', type=str, required=True)
+parser.add_argument('--region', type=str, required=True)
 args = parser.parse_args()
 
 
-client = boto3.client('cloudformation')
+client = boto3.client('cloudformation', region_name = args.region)
 
 
 def main():
