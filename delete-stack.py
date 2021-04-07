@@ -4,6 +4,7 @@ from os import environ
 import logging
 import argparse
 import boto3
+import botocore
 
 LOGGER = logging.getLogger(__name__)
 LOGFORMAT = "%(levelname)s: %(message)s"
