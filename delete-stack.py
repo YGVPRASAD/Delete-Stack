@@ -35,13 +35,16 @@ def main():
         response = client.delete_stack(
             StackName=args.name
         )
-        time.sleep(20)
         status = client.describe_stacks(
             StackName=stack_name
         )
         stackstatus = status['Stacks'][0]['StackStatus']
         LOGGER.info(stackstatus)
-        
+        while (stackstatus == "DELETE_IN_PROGRESS"):
+            LOGGER.info("DELETE IN PROGRESS")
+            stackstatus = status['Stacks'][0]['StackStatus']
+        LOGGER.info(stackstatus)
+             
     else:
         LOGGER.info("Stack does not exist")
     
