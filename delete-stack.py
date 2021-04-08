@@ -42,15 +42,7 @@ def main():
                 )
                 stackstatus = status['Stacks'][0]['StackStatus']
         except ClientError as error:
-            status = client.describe_stacks(
-                StackName=stack_name
-            )
-            stackstatus = status['Stacks'][0]['StackStatus']
-            LOGGER.info(stackstatus)
-            if stackstatus == 'DELETE_FAILED':
-                raise
-            else:
-                LOGGER.info("Deleted {}".format(stack_name))  
+            LOGGER.info("Deleted {}".format(stack_name))  
     else:
         LOGGER.info("Stack does not exist")
     
