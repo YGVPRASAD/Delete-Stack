@@ -44,7 +44,7 @@ def main():
         except ClientError as error:
             LOGGER.info("Deleted {}".format(stack_name))  
     else:
-        raise
+        raise Exception("Stack does not exist")
         #LOGGER.info("Stack does not exist")
     
 def _stack_exists(stack_name):
