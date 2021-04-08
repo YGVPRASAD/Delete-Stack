@@ -4,6 +4,7 @@ import sys
 from os import environ
 import logging
 import argparse
+import time
 import boto3
 import botocore
 
@@ -34,13 +35,13 @@ def main():
         response = client.delete_stack(
             StackName=args.name
         )
+        time.sleep(20)
         status = client.describe_stacks(
             StackName=stack_name
         )
         stackstatus = status['Stacks'][0]['StackStatus']
-        stackid = status['Stacks'][0]['StackId']
         LOGGER.info(stackstatus)
-        LOGGER.info(stackid)
+        
     else:
         LOGGER.info("Stack does not exist")
     
