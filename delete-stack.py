@@ -42,7 +42,14 @@ def main():
         LOGGER.info(stackstatus)
         while (stackstatus == "DELETE_IN_PROGRESS"):
             LOGGER.info("DELETE IN PROGRESS")
+            status = client.describe_stacks(
+                StackName=stack_name
+            )
             stackstatus = status['Stacks'][0]['StackStatus']
+        status = client.describe_stacks(
+            StackName=stack_name
+        )
+        stackstatus = status['Stacks'][0]['StackStatus']
         LOGGER.info(stackstatus)
              
     else:
