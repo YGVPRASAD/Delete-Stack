@@ -7,7 +7,7 @@ import argparse
 import time
 import boto3
 import botocore
-
+from botocore.exceptions import ClientError
 LOGGER = logging.getLogger(__name__)
 LOGFORMAT = "%(levelname)s: %(message)s"
 LOGGER = logging.getLogger("Launch RDS CFT")
@@ -20,9 +20,7 @@ parser.add_argument('--name', type=str, required=True)
 parser.add_argument('--region', type=str, required=True)
 args = parser.parse_args()
 
-
 client = boto3.client('cloudformation', region_name = args.region)
-
 
 def main():
     ###delete stack###
@@ -35,23 +33,24 @@ def main():
         response = client.delete_stack(
             StackName=args.name
         )
-        status = client.describe_stacks(
-            StackName=stack_name
-        )
-        stackstatus = status['Stacks'][0]['StackStatus']
-        LOGGER.info(stackstatus)
-        while (stackstatus == "DELETE_IN_PROGRESS"):
-            LOGGER.info("DELETE IN PROGRESS")
+        try:
+            stackstatus = "DELETE_IN_PROGRESS"
+            while (stackstatus == "DELETE_IN_PROGRESS"):
+                LOGGER.info("DELETE IN PROGRESS")
+                status = client.describe_stacks(
+                    StackName=stack_name
+                )
+                stackstatus = status['Stacks'][0]['StackStatus']
+        except ClientError as error:
             status = client.describe_stacks(
                 StackName=stack_name
             )
             stackstatus = status['Stacks'][0]['StackStatus']
-        status = client.describe_stacks(
-            StackName=stack_name
-        )
-        stackstatus = status['Stacks'][0]['StackStatus']
-        LOGGER.info(stackstatus)
-             
+            LOGGER.info(stackstatus)
+            if stackstatus == 'DELETE_FAILED':
+                raise
+            else:
+                LOGGER.info("Deleted {}".format(stack_name))  
     else:
         LOGGER.info("Stack does not exist")
     
