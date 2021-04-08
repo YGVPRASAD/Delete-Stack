@@ -30,15 +30,17 @@ def main():
         'StackName': stack_name,
     }
     if _stack_exists(stack_name):
-        status = client.describe_stacks(
-            StackName=stack_name
-        )
-        stackstatus = status['Stacks'][0]['StackStatus']
-        LOGGER.info(stackstatus)
         LOGGER.info("Deleting {}".format(stack_name))
         response = client.delete_stack(
             StackName=args.name
         )
+        status = client.describe_stacks(
+            StackName=stack_name
+        )
+        stackstatus = status['Stacks'][0]['StackStatus']
+        stackid = status['Stacks'][0]['StackId']
+        LOGGER.info(stackstatus)
+        LOGGER.info(stackid)
     else:
         LOGGER.info("Stack does not exist")
     
