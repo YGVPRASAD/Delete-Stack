@@ -30,6 +30,11 @@ def main():
         'StackName': stack_name,
     }
     if _stack_exists(stack_name):
+        status = client.describe_stacks(
+            StackName=stack_name
+        )
+        stackstatus = status['Stacks'][0]['StackStatus']
+        LOGGER.info(stackstatus)
         LOGGER.info("Deleting {}".format(stack_name))
         response = client.delete_stack(
             StackName=args.name
